@@ -26,6 +26,7 @@ static bool mustConvertToJSONB(Oid oid)
 		return false;
 	}
 	typeStruct = (Form_pg_type)GETSTRUCT( typeTup );
+        ReleaseSysCache( typeTup ); // cvas71 2023.02.16 fix: cache reference leak: cache pg_type	
 	return strcmp(NameStr(typeStruct->typname), "record") == 0;
 }
 
